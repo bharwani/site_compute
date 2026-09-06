@@ -91,32 +91,7 @@ npm run fastly:publish      # pushes public/'s contents to the service's live KV
 first run, the `site-content` KV Store) if one isn't already configured in
 `fastly.toml`.
 
-### Option B: Cloud Deploy (one-click, template-repo based)
-
-[Cloud Deploy](https://www.fastly.com/documentation/reference/tools/cloud-deploy/)
-is Fastly's "Deploy to Fastly" button: it generates a new GitHub repo from a
-**template repo** and provisions the Fastly resources listed under
-`fastly.toml`'s `[setup]` block via a GitHub Actions workflow, on push.
-`compute-js/fastly.toml` already declares `[setup.kv_stores.site-content]`,
-so the KV Store resource itself is provisioned automatically.
-
-This path only fits if you push this repo to GitHub and mark it as a
-**template repository** (GitHub repo Settings → "Template repository").
-Then add this badge to the repo's README:
-
-```
-[![Deploy to Fastly](https://deploy.edgecompute.app/button)](https://deploy.edgecompute.app/deploy)
-```
-
-Caveat: Cloud Deploy's default workflow provisions the empty KV Store but
-does **not** run the static-content publish step
-(`compute-js-static-publish publish-content`) — that's specific to this
-package, not something Cloud Deploy knows about. You'd still need to add a
-step to a GitHub Actions workflow that runs `npm run fastly:publish` (or
-the equivalent `publish-content` command) after the service is created, or
-run it manually once via the CLI.
-
-### Option C: GitHub Actions (disabled by default)
+### Option B: GitHub Actions (disabled by default)
 
 `.github/workflows/deploy.yml` builds and deploys `compute-js/` using
 [`fastly/compute-actions`](https://github.com/fastly/compute-actions),

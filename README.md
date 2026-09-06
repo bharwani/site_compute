@@ -54,6 +54,26 @@ Run the routing tests directly with Node (no server needed):
 node compute-js/test/api.test.mjs
 ```
 
+### scripts/test_endpoints.py
+
+An HTTP-level smoke test — the Python twin of `static_site`'s
+`test-endpoints.mjs`, ported here unchanged. It hits all 11 documented
+endpoints plus 3 undocumented ones (`/api`, `/api/`, `/api/does-not-exist`,
+kept for visibility only, never graded) over real HTTP and checks the
+response body against the expected JSON.
+
+```
+python3 scripts/test_endpoints.py --port=<viceroy-port>   # target a running server
+python3 scripts/test_endpoints.py --requests=50           # hammer each endpoint 50x
+```
+
+Note: it was carried over as-is from `static_site` and still expects that
+repo's layout — an `api/server.mjs` to spawn (when no `--port`/`--base-url`
+is given) and per-endpoint JSON fixtures colocated with the script. Neither
+exists in this repo yet, so grading will fail until those are added; use
+`--port`/`--base-url` against a running Viceroy instance for now, or treat
+FAILs on graded endpoints as expected until the fixtures are ported over.
+
 ## Deploying
 
 This repo has been scaffolded and verified locally only — no live Fastly

@@ -1,0 +1,165 @@
+openapi: 3.0.3
+info:
+  title: Mock API
+  description: Mocked endpoints served by server.mjs, exercised by test_endpoints.py
+  version: "1.0"
+servers:
+  - url: https://abedgewaf2.global.ssl.fastly.net
+paths:
+  /api/v1/{resource}:
+    get:
+      summary: Fetch a v1 resource
+      parameters:
+        - name: resource
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: ["1", "2", "3"]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V1Resource"
+  /api/v1/login:
+    post:
+      summary: v1 login
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V1Resource"
+  /api/v1/register:
+    post:
+      summary: v1 register
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V1Resource"
+  /api/v2/login:
+    post:
+      summary: v2 login
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V2Resource"
+  /api/v2/register:
+    post:
+      summary: v2 register
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V2Resource"
+  /api/v2/users/{userId}/create:
+    post:
+      summary: Create user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V2UserAction"
+  /api/v2/users/{userId}/update:
+    put:
+      summary: Update user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V2UserAction"
+  /api/v2/users/{userId}/read:
+    get:
+      summary: Read user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V2UserAction"
+  /api/v2/users/{userId}/delete:
+    delete:
+      summary: Delete user
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/V2UserAction"
+components:
+  schemas:
+    V1Resource:
+      type: object
+      properties:
+        status:
+          type: string
+          example: ok
+        version:
+          type: string
+          example: v1
+        resource:
+          type: string
+    V2Resource:
+      type: object
+      properties:
+        status:
+          type: string
+          example: ok
+        version:
+          type: string
+          example: v2
+        resource:
+          type: string
+    V2UserAction:
+      type: object
+      properties:
+        status:
+          type: string
+          example: ok
+        version:
+          type: string
+          example: v2
+        action:
+          type: string
+          enum: [create, update, read, delete]
